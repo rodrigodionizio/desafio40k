@@ -3,235 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio 40k - Rodrigo Dionízio</title>
+    <title>PoupeMais - Sistema de Liberdade Financeira</title>
+    <!-- Fontes e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        :root { --primary: #00ff88; --accent: #ffd700; --bg: #0a0f1d; --card: #161e31; --text: #e2e8f0; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; padding-bottom: 90px; }
-        
-        /* Dashboard */
-        .dashboard { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            position: sticky; top: 10px; z-index: 1000; 
-            border: 1px solid #2d3748; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+        :root {
+            --primary: #00ff88;
+            --secondary: #10b981;
+            --bg: #0a0f1d;
+            --card: #161e31;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: radial-gradient(circle at center, #1e293b 0%, #0a0f1d 100%);
+        }
+
+        .badge {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
             margin-bottom: 20px;
+            border: 1px solid var(--primary);
         }
-        .selic-status { font-size: 0.7rem; color: var(--accent); font-weight: bold; letter-spacing: 1px; display: flex; justify-content: space-between; }
-        .main-balance { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin: 5px 0; }
-        
-        /* Barra de Progresso */
-        .progress-container { width: 100%; height: 12px; background: #2d3748; border-radius: 10px; margin: 10px 0; overflow: hidden; border: 1px solid #3d4d63; }
-        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #00bd65, var(--primary)); transition: width 0.5s ease-in-out; }
-        .progress-text { font-size: 0.75rem; color: var(--primary); font-weight: bold; text-align: right; margin-bottom: 5px; }
 
-        .yield-box { 
-            background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; 
-            margin-top: 15px; font-size: 0.85rem; border-left: 4px solid var(--primary);
+        h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
+        h1 span { color: var(--primary); }
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 40px; }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
         }
-        .yield-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .val-total { color: var(--primary); font-size: 1rem; font-weight: bold; }
 
-        /* Botões */
-        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn { border: none; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 0.75rem; text-transform: uppercase; transition: 0.2s; }
-        .btn-combo { background: #2d3748; color: var(--primary); border: 1px solid var(--primary); }
-        .btn-max { background: var(--primary); color: #000; }
-
-        /* Tabela */
-        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .column-header { font-size: 0.65rem; color: #718096; text-align: center; margin-bottom: 8px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; }
-        .cell { 
-            background: #1e293b; padding: 12px 2px; text-align: center; 
-            font-size: 0.75rem; border-radius: 6px; cursor: pointer; color: #94a3b8; transition: 0.1s;
+        @media (max-width: 768px) {
+            .philosophy { grid-template-columns: 1fr; }
+            h1 { font-size: 2.2rem; }
         }
-        .cell.checked { background: var(--primary); color: #000; font-weight: 800; box-shadow: 0 0 8px rgba(0,255,136,0.3); }
-        .cell.highlight { border: 2px solid var(--accent); transform: scale(1.1); z-index: 10; background: #2d3748; }
 
-        /* Footer Copyright */
+        .phi-card {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #2d3748;
+        }
+
+        .phi-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; }
+        .phi-card p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* Challenges Section */
+        .challenges {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .grid-challenges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .choice-card {
+            background: linear-gradient(145deg, #161e31, #1e293b);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid #334155;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .choice-card h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        .price-tag { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0; }
+        .btn-action {
+            margin-top: 20px;
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* Quote Section */
+        .quote {
+            padding: 60px 20px;
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         footer {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: #000; color: #fff; text-align: center;
-            padding: 15px 0; font-size: 0.8rem; border-top: 2px solid var(--primary);
-            z-index: 2000; line-height: 1.5;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #2d3748;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
-        footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
 
-        /* Modal Congratulação */
-        #congrats-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--primary); color: #000; padding: 30px; border-radius: 20px;
-            z-index: 3000; text-align: center; box-shadow: 0 0 50px rgba(0,255,136,0.6);
-            width: 80%; max-width: 300px;
-        }
+        footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="congrats-modal" onclick="this.style.display='none'">
-    <h2 style="margin:0">💎 FOCO TOTAL!</h2>
-    <p>Uaauu!!! Você realizou mais de 4 depósitos em 3 dias. Sua velocidade de acumulação está acelerada! O milhão começa aqui.</p>
-    <small>(Toque para fechar)</small>
-</div>
+    <header>
+        <div class="badge">PROJETO POUPEMAIS 2026</div>
+        <h1>Construa sua <span>Liberdade</span><br>um passo de cada vez.</h1>
+        <p class="subtitle">Transforme sua relação com o dinheiro usando gamificação e a ciência dos hábitos. Escolha o seu desafio e comece a pontuar hoje.</p>
+        <a href="#escolha" style="color: var(--primary); text-decoration: none; font-weight: bold; border-bottom: 2px solid var(--primary); padding-bottom: 5px;">VER DESAFIOS ↓</a>
+    </header>
 
-<div class="dashboard">
-    <div class="selic-status">
-        <span>SELIC 2026: <span id="selic-val">15.00</span>% a.a.</span>
-        <span>META: R$ 40.200</span>
-    </div>
-    <div style="font-size: 0.8rem; opacity: 0.7;">MEU ACUMULADO</div>
-    <div id="total-saved" class="main-balance">R$ 0,00</div>
-    
-    <!-- Barra de Progresso -->
-    <div class="progress-text"><span id="progress-percent">0</span>% CONCLUÍDO</div>
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar-fill"></div>
-    </div>
-
-    <div class="yield-box">
-        <div class="yield-row">
-            <span>Rendimento Mensal:</span>
-            <span id="yield-month">R$ 0,00</span>
+    <section class="philosophy">
+        <div class="phi-card">
+            <h3>🧠 O Mindset Milionário</h3>
+            <p>"A diferença entre o sucesso e o fracasso financeiro reside na forma como você administra o seu dinheiro." - T. Harv Eker. <br><br> Não se trata de quanto você ganha, mas do sistema que você criou para manter o que conquista. Nossos desafios educam seu subconsciente a poupar antes de gastar.</p>
         </div>
-        <div class="yield-row" style="margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.1); pt: 5px;">
-            <span>TOTAL PROJETADO (12m):</span>
-            <span class="val-total" id="total-projected">R$ 0,00</span>
+        <div class="phi-card">
+            <h3>⚡ Metanoia </h3>
+            <p>Segundo James Clear, a mudança real vem da melhora de 1% a cada dia. Ao marcar uma célula no nosso app, você não está apenas guardando dinheiro, você está provando para si mesmo que é um investidor. O foco não é a meta, é o sistema visual de progresso.</p>
         </div>
+    </section>
+
+    <div class="quote">
+        "Nós nos tornamos aquilo que fazemos repetidamente. A excelência, portanto, não é um ato, mas um hábito."
     </div>
 
-    <div class="strategy-grid">
-        <button class="btn btn-combo" onclick="suggestCombo()">Combo 201</button>
-        <button class="btn btn-max" onclick="maximizeYield()">Maximizar Juros</button>
-    </div>
-</div>
+    <section id="escolha" class="challenges">
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">Escolha sua Jornada</h2>
+        <p style="color: var(--text-muted);">Selecione o desafio que melhor se adapta à sua realidade atual.</p>
 
-<div class="container">
-    <div>
-        <div class="column-header">CRESCENTE (1-200)</div>
-        <div class="grid" id="grid-up"></div>
-    </div>
-    <div>
-        <div class="column-header">DECRESCENTE (200-1)</div>
-        <div class="grid" id="grid-down"></div>
-    </div>
-</div>
+        <div class="grid-challenges">
+            <!-- Card 10k -->
+            <a href="desafio10k/index.html" class="choice-card">
+                <div class="icon-box">🚀</div>
+                <h2>Start 10K</h2>
+                <p>Ideal para quem quer sair do sufoco e criar sua primeira reserva.</p>
+                <div class="price-tag">R$ 10.100</div>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Acessível • Focado em Hábito • Seguro</p>
+                <div class="btn-action">Iniciar Agora</div>
+            </a>
 
-<footer>
-    &copy; 2026 Rodrigo Dionízio - Todos os direitos reservados<br>
-    Siga no Instagram: <a href="https://www.instagram.com/rodrigodionizio/" target="_blank">@rodrigodionizio</a>
-</footer>
+            <!-- Card 40k -->
+            <a href="desafio40k/index.html" class="choice-card">
+                <div class="icon-box">💎</div>
+                <h2>Expert 40K</h2>
+                <p>Para quem busca acelerar o patrimônio e usar a Selic como motor.</p>
+                <div class="price-tag">R$ 40.200</div>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Agressivo • Focado em Juros • Alta Performance</p>
+                <div class="btn-action">Aceitar Desafio</div>
+            </a>
+        </div>
+    </section>
 
-<script>
-    let selicMeta = 15.00;
-    const goal = 40200;
-    let savedData = JSON.parse(localStorage.getItem('desafio_40k_dionizio')) || [];
+    <footer>
+        <p>&copy; 2026 Rodrigo Dionízio - PoupeMais</p>
+        <p>Desenvolvido para transformar mentes e bolsos.<br>
+        Siga para mais insights: <a href="https://www.instagram.com/rodrigodionizio/" target="_blank">@rodrigodionizio</a></p>
+    </footer>
 
-    async function syncBCB() {
-        try {
-            const res = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
-            const data = await res.json();
-            if(data && data[0]) {
-                selicMeta = parseFloat(data[0].valor);
-                document.getElementById('selic-val').innerText = selicMeta.toFixed(2);
-                render();
-            }
-        } catch (e) { render(); }
-    }
-
-    function render() {
-        const gridUp = document.getElementById('grid-up');
-        const gridDown = document.getElementById('grid-down');
-        gridUp.innerHTML = ''; gridDown.innerHTML = '';
-        let total = 0;
-
-        const markedIds = savedData.map(item => item.id);
-
-        for(let i=1; i<=200; i++) {
-            const id = `u${i}`;
-            const isChecked = markedIds.includes(id);
-            if(isChecked) total += i;
-            gridUp.appendChild(createCell(i, id, isChecked));
-        }
-        for(let i=200; i>=1; i--) {
-            const id = `d${i}`;
-            const isChecked = markedIds.includes(id);
-            if(isChecked) total += i;
-            gridDown.appendChild(createCell(i, id, isChecked));
-        }
-
-        // Atualizar Dashboard
-        const selicMensal = (Math.pow(1 + (selicMeta/100), 1/12) - 1);
-        const rendAnualLiquido = (total * (selicMeta/100)) * 0.825; 
-        const perc = (total / goal) * 100;
-
-        document.getElementById('total-saved').innerText = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-        document.getElementById('yield-month').innerText = (total * selicMensal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-        document.getElementById('total-projected').innerText = (total + rendAnualLiquido).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-        
-        // Atualizar Barra
-        document.getElementById('progress-bar-fill').style.width = Math.min(perc, 100) + '%';
-        document.getElementById('progress-percent').innerText = Math.floor(perc);
-    }
-
-    function createCell(val, id, isChecked) {
-        const div = document.createElement('div');
-        div.className = `cell ${isChecked ? 'checked' : ''}`;
-        div.id = id;
-        div.innerText = val;
-        div.onclick = () => toggle(id);
-        return div;
-    }
-
-    function toggle(id) {
-        const index = savedData.findIndex(item => item.id === id);
-        if(index > -1) {
-            savedData.splice(index, 1);
-        } else {
-            savedData.push({ id: id, time: Date.now() });
-            checkConsistency();
-        }
-        localStorage.setItem('desafio_40k_dionizio', JSON.stringify(savedData));
-        render();
-    }
-
-    function checkConsistency() {
-        const threeDaysAgo = Date.now() - (3 * 24 * 60 * 60 * 1000);
-        const recent = savedData.filter(item => item.time > threeDaysAgo);
-        if(recent.length >= 5) {
-            document.getElementById('congrats-modal').style.display = 'block';
-            setTimeout(() => { document.getElementById('congrats-modal').style.display = 'none'; }, 5000);
-        }
-    }
-
-    function suggestCombo() {
-        clearHighlights();
-        const markedIds = savedData.map(item => item.id);
-        for(let i=1; i<=200; i++) {
-            if(!markedIds.includes(`u${i}`) && !markedIds.includes(`d${201-i}`)) {
-                highlight([`u${i}`, `d${201-i}`]);
-                break;
-            }
-        }
-    }
-
-    function maximizeYield() {
-        clearHighlights();
-        const markedIds = savedData.map(item => item.id);
-        for(let i=200; i>=1; i--) {
-            if(!markedIds.includes(`d${i}`)) { highlight([`d${i}`]); break; }
-        }
-    }
-
-    function highlight(ids) { 
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add('highlight');
-        });
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-    
-    function clearHighlights() { document.querySelectorAll('.cell').forEach(c => c.classList.remove('highlight')); }
-
-    syncBCB();
-</script>
 </body>
 </html>
